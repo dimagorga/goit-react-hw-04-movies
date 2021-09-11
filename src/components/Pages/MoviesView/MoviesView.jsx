@@ -2,9 +2,9 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import s from "./MoviesView.module.css";
-import api from "../../API/TMDA";
-import FilmsItem from "../FilmsItem/FilmsItem";
-import FilmsList from "../FilmsList/FilmsList";
+import api from "../../../API/TMDA";
+import FilmsItem from "../../FilmsItem/FilmsItem";
+import FilmsList from "../../FilmsList/FilmsList";
 
 function MoviesView() {
   const [input, setInput] = useState("");

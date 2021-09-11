@@ -5,12 +5,16 @@ export default function Navigation() {
     <nav className={s.nav}>
       <ul className={s.navList}>
         <li className={s.listItem}>
-          <NavLink to="/" className="link" activeClassName="active-link">
+          <NavLink to="/" className={s.link} activeClassName={s.activeLink}>
             Home
           </NavLink>
         </li>
         <li className={s.listItem}>
-          <NavLink to="/movies" className="link" activeClassName="active-link">
+          <NavLink
+            to="/movies"
+            className={s.link}
+            activeClassName={s.activeLink}
+          >
             Movies
           </NavLink>
         </li>

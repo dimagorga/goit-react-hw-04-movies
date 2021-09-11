@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 // import s from "./HomeView.module.css";
-import api from "../../API/TMDA";
-import FilmsItem from "../FilmsItem/FilmsItem";
-import FilmsList from "../FilmsList/FilmsList";
+import api from "../../../API/TMDA";
+import FilmsItem from "../../FilmsItem/FilmsItem";
+import FilmsList from "../../FilmsList/FilmsList";
 
 export default function HomeView() {
   const [trendFilms, setTrendFilms] = useState([]);

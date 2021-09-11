@@ -1,8 +1,10 @@
 import { Switch, Route } from "react-router-dom";
 import "./App.css";
 import Navigation from "./components/Navigation/Navigaton";
-import HomeView from "./components/HomeView/HomeView";
-import MoviesView from "./components/MoviesView/MoviesView";
+import HomeView from "./components/Pages/HomeView/HomeView";
+import MoviesView from "./components/Pages/MoviesView/MoviesView";
+import FilmInfo from "./components/Pages/FilmInfo/FilmInfo";
+
 function App() {
   return (
     <div className="container">
@@ -10,6 +12,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={HomeView} />
         <Route path="/movies" component={MoviesView} />
+        <Route path="/movie/:movieId" component={FilmInfo} />
       </Switch>
     </div>
   );
