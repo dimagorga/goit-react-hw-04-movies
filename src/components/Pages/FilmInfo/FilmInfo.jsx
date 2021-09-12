@@ -1,15 +1,21 @@
-import { useParams } from "react-router";
-import { useEffect } from "react";
+import { useParams, useRouteMatch } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, Route } from "react-router-dom";
 import api from "../../../API/TMDA";
 import s from "./FilmInfo.module.css";
-import { useState } from "react/cjs/react.development";
+import Cast from "../Cast/Cast";
+import Reviews from "../Reviews/Reviews";
 
 export default function FilmInfo() {
+  const { url } = useRouteMatch();
+
   const { movieId } = useParams();
   const [filmInfo, setFilmInfo] = useState({});
-  //   console.log(params);
   useEffect(() => {
     return api.fetchMovie(movieId).then(({ data }) => {
+      const movieGenres = data.genres.map((genre) => {
+        return genre.name;
+      });
       const info = {
         key: data.id,
         img: data.poster_path,
@@ -17,7 +23,7 @@ export default function FilmInfo() {
         rating: data.vote_average,
         tag: data.tagline,
         date: data.release_date.substr(0, 4),
-        genres: data.genres,
+        genres: movieGenres,
         descr: data.overview,
       };
       return setFilmInfo(info);
@@ -48,10 +54,22 @@ export default function FilmInfo() {
             )}
             {filmInfo.tag && <p>"{filmInfo.tag}"</p>}
             <p> Rating: {filmInfo.rating}/10</p>
-            <p>Overview: {filmInfo.descr}</p>
+            <h3>Overview:</h3>
+            <p>{filmInfo.descr}</p>
+            <h3>Genres</h3>
+            <p>
+              {filmInfo.genres &&
+                filmInfo.genres.map((genre) => {
+                  return `${genre} `;
+                })}
+            </p>
           </div>
         </div>
         <hr />
+        <Link to={`${url}/cast`}>Cast</Link>
+        <Link to={`${url}/reviews`}>Reviews</Link>
+        <Route path={`${url}/cast`} component={Cast} />
+        <Route path={`${url}/reviews`} component={Reviews} />
       </div>
     );
   }
