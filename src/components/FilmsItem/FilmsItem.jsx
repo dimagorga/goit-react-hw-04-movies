@@ -4,11 +4,13 @@ export default function FilmsItem({ id, image, name }) {
   return (
     <li id={id} className={s.item}>
       <Link to={`movie/${id}`}>
-        <img
-          className={s.image}
-          src={`https://image.tmdb.org/t/p/w300/${image}`}
-          alt={name}
-        />
+        {image && (
+          <img
+            className={s.image}
+            src={`https://image.tmdb.org/t/p/w300/${image}`}
+            alt={name}
+          />
+        )}
       </Link>
     </li>
   );

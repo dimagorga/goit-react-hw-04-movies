@@ -1,12 +1,14 @@
 import { useParams, useRouteMatch } from "react-router";
 import { useEffect, useState } from "react";
 import { Link, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import api from "../../../API/TMDA";
-import s from "./FilmInfo.module.css";
-import Cast from "../Cast/Cast";
-import Reviews from "../Reviews/Reviews";
+import s from "./MovieDetailsPage.module.css";
 
-export default function FilmInfo() {
+const Cast = lazy(() => import("../Cast/Cast.jsx"));
+const Reviews = lazy(() => import("../Reviews/Reviews.jsx"));
+
+export default function MovieDetailsPage() {
   const { url } = useRouteMatch();
 
   const { movieId } = useParams();
@@ -66,10 +68,22 @@ export default function FilmInfo() {
           </div>
         </div>
         <hr />
-        <Link to={`${url}/cast`}>Cast</Link>
-        <Link to={`${url}/reviews`}>Reviews</Link>
-        <Route path={`${url}/cast`} component={Cast} />
-        <Route path={`${url}/reviews`} component={Reviews} />
+        <ul className={s.list}>
+          <li className={s.link}>
+            <Link to={`${url}/cast`}>Cast</Link>
+          </li>
+          <li>
+            <Link to={`${url}/reviews`}>Reviews</Link>
+          </li>
+        </ul>
+        <Suspense fallback={<h1>Loading...</h1>}>
+          <Route path={`${url}/cast/`}>
+            <Cast id={filmInfo.key} />
+          </Route>
+          <Route path={`${url}/reviews`}>
+            <Reviews id={filmInfo.key} />
+          </Route>
+        </Suspense>
       </div>
     );
   }

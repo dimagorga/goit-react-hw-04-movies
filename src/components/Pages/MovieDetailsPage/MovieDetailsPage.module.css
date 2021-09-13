@@ -1,0 +1,13 @@
+.film {
+  display: flex;
+}
+.descr {
+  margin-left: 30px;
+}
+.list {
+  list-style: none;
+  display: flex;
+}
+.link {
+  margin-right: 10px;
+}
