@@ -16,12 +16,17 @@ function MoviesView() {
   const history = useHistory();
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get("query") || "";
+  const perPage = new URLSearchParams(location.search).get("page") || 1;
 
   useEffect(() => {
-    if (searchQuery !== "") {
+    if (searchQuery === "") {
+      return;
+    }
+    if (perPage !== page) {
+      setPage(perPage);
+    } else {
       formSubmit(searchQuery, page);
     }
-    return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
@@ -36,11 +41,8 @@ function MoviesView() {
         theme: "dark",
       });
     }
-    history.push({ ...location, search: `query=${input}` });
     setFilms([]);
     formSubmit(input);
-    setInput("");
-    setPage(1);
   };
 
   function formSubmit(searchInput, page) {
@@ -78,6 +80,7 @@ function MoviesView() {
     setFilms([]);
     let selected = event.selected + 1;
     setPage(selected);
+    history.push({ ...location, search: `query=${input}&page=${selected}` });
   };
 
   return (
