@@ -2,17 +2,21 @@ import { useParams, useRouteMatch } from "react-router";
 import { useEffect, useState } from "react";
 import { Link, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import api from "../../../API/TMDA";
+import { useHistory, useLocation } from "react-router";
+
+import api from "../../API/TMDA";
 import s from "./MovieDetailsPage.module.css";
 
-const Cast = lazy(() => import("../Cast/Cast.jsx"));
-const Reviews = lazy(() => import("../Reviews/Reviews.jsx"));
+const Cast = lazy(() => import("../../components/Cast/Cast.jsx"));
+const Reviews = lazy(() => import("../../components/Reviews/Reviews.jsx"));
 
 export default function MovieDetailsPage() {
   const { url } = useRouteMatch();
-
   const { movieId } = useParams();
   const [filmInfo, setFilmInfo] = useState({});
+  const history = useHistory();
+  const location = useLocation();
+
   useEffect(() => {
     return api.fetchMovie(movieId).then(({ data }) => {
       const movieGenres = data.genres.map((genre) => {
@@ -32,9 +36,16 @@ export default function MovieDetailsPage() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const goBack = () => {
+    history.push(location?.state?.from ?? "/");
+  };
   if (filmInfo) {
     return (
       <div>
+        <button type="button" onClick={goBack}>
+          Go back
+        </button>
         <div className={s.film}>
           {filmInfo.img ? (
             <img
@@ -70,10 +81,34 @@ export default function MovieDetailsPage() {
         <hr />
         <ul className={s.list}>
           <li className={s.link}>
-            <Link to={`${url}/cast`}>Cast</Link>
+            <Link
+              to={{
+                pathname: `${url}/cast`,
+                state: {
+                  from:
+                    location && location.state && location.state.from
+                      ? location.state.from
+                      : "/",
+                },
+              }}
+            >
+              Cast
+            </Link>
           </li>
           <li>
-            <Link to={`${url}/reviews`}>Reviews</Link>
+            <Link
+              to={{
+                pathname: `${url}/reviews`,
+                state: {
+                  from:
+                    location && location.state && location.state.from
+                      ? location.state.from
+                      : "/",
+                },
+              }}
+            >
+              Reviews
+            </Link>
           </li>
         </ul>
         <Suspense fallback={<h1>Loading...</h1>}>

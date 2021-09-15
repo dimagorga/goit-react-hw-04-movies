@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import s from "./Cast.module.css";
-import api from "../../../API/TMDA";
+import api from "../../API/TMDA";
 
 export default function Cast({ id }) {
   const [actors, setActors] = useState([]);

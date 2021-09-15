@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../../../API/TMDA";
+import api from "../../API/TMDA";
 
 export default function Reviews({ id }) {
   const [reviews, setReviews] = useState([]);

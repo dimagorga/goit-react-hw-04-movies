@@ -1,14 +1,12 @@
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import "./App.css";
 import Navigation from "./components/Navigation/Navigaton";
 
-const HomePage = lazy(() => import("./components/Pages/HomePage/HomePage.jsx"));
-const MoviesPage = lazy(() =>
-  import("./components/Pages/MoviesPage/MoviesPage.jsx")
-);
+const HomePage = lazy(() => import("./Pages/HomePage/HomePage.jsx"));
+const MoviesPage = lazy(() => import("./Pages/MoviesPage/MoviesPage.jsx"));
 const MovieDetailsPage = lazy(() =>
-  import("./components/Pages/MovieDetailsPage/MovieDetailsPage.jsx")
+  import("./Pages/MovieDetailsPage/MovieDetailsPage.jsx")
 );
 function App() {
   return (
@@ -26,7 +24,6 @@ function App() {
             <MovieDetailsPage />
           </Route>
         </Switch>
-        <Redirect to="/" />
       </Suspense>
     </div>
   );

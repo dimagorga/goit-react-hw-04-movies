@@ -4,9 +4,9 @@ import { useHistory, useLocation } from "react-router";
 import ReactPaginate from "react-paginate";
 import "react-toastify/dist/ReactToastify.css";
 import s from "./MoviesPage.module.css";
-import api from "../../../API/TMDA";
-import FilmsItem from "../../FilmsItem/FilmsItem";
-import FilmsList from "../../FilmsList/FilmsList";
+import api from "../../API/TMDA";
+import FilmsItem from "../../components/FilmsItem/FilmsItem";
+import FilmsList from "../../components/FilmsList/FilmsList";
 
 function MoviesView() {
   const [input, setInput] = useState("");

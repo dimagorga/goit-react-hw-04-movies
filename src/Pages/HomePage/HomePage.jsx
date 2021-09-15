@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { useHistory, useLocation } from "react-router";
 import s from "./HomePage.module.css";
-import api from "../../../API/TMDA";
-import FilmsItem from "../../FilmsItem/FilmsItem";
-import FilmsList from "../../FilmsList/FilmsList";
+import api from "../../API/TMDA";
+import FilmsItem from "../../components/FilmsItem/FilmsItem";
+import FilmsList from "../../components/FilmsList/FilmsList";
 
 export default function HomeView() {
   const [trendFilms, setTrendFilms] = useState([]);
@@ -12,13 +12,16 @@ export default function HomeView() {
   const [totalPages, setTotalPages] = useState(1);
   const history = useHistory();
   const location = useLocation();
-  const searchQuery = new URLSearchParams(location.search).get("query") || page;
+  const perPage = new URLSearchParams(location.search).get("page") || 1;
 
   useEffect(() => {
-    history.push({ ...location, search: `page=${page}` });
-    trendingFims(searchQuery);
+    if (perPage !== page) {
+      setPage(perPage);
+    } else {
+      trendingFims(page);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, searchQuery]);
+  }, [page]);
 
   function trendingFims(page) {
     api.fetchTrending(page).then(({ data }) => {
@@ -44,6 +47,7 @@ export default function HomeView() {
     setTrendFilms([]);
     let selected = event.selected + 1;
     setPage(selected);
+    history.push({ ...location, search: `page=${selected}` });
   };
 
   return (
