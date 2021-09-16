@@ -19,15 +19,19 @@ function MoviesView() {
   const perPage = new URLSearchParams(location.search).get("page") || 1;
 
   useEffect(() => {
-    if (searchQuery === "") {
-      return;
+    if (input !== "") {
+      setInput(searchQuery);
     }
-    if (perPage !== page) {
+    if (page !== 1) {
       setPage(perPage);
-    } else {
-      formSubmit(searchQuery, page);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (input !== "" || page !== perPage) {
+      setInput(searchQuery);
+      formSubmit(searchQuery, perPage);
+    }
   }, [page]);
 
   const handleChange = (e) => {
@@ -42,6 +46,8 @@ function MoviesView() {
       });
     }
     setFilms([]);
+    history.push({ ...location, search: `query=${input}` });
+
     formSubmit(input);
   };
 
