@@ -11,7 +11,7 @@ const Cast = lazy(() => import("../../components/Cast/Cast.jsx"));
 const Reviews = lazy(() => import("../../components/Reviews/Reviews.jsx"));
 
 export default function MovieDetailsPage() {
-  const { url } = useRouteMatch();
+  const { url, path } = useRouteMatch();
   const { movieId } = useParams();
   const [filmInfo, setFilmInfo] = useState({});
   const history = useHistory();
@@ -40,6 +40,9 @@ export default function MovieDetailsPage() {
   const goBack = () => {
     history.push(location?.state?.from ?? "/");
   };
+
+  console.log();
+
   if (filmInfo) {
     return (
       <div>
@@ -106,11 +109,11 @@ export default function MovieDetailsPage() {
           </li>
         </ul>
         <Suspense fallback={<h1>Loading...</h1>}>
-          <Route path={`${url}/cast/`}>
-            <Cast id={filmInfo.key} />
+          <Route path={`${path}/cast/`}>
+            <Cast id={movieId} />
           </Route>
-          <Route path={`${url}/reviews`}>
-            <Reviews id={filmInfo.key} />
+          <Route path={`${path}/reviews`}>
+            <Reviews id={movieId} />
           </Route>
         </Suspense>
       </div>
