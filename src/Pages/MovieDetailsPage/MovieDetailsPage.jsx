@@ -85,10 +85,7 @@ export default function MovieDetailsPage() {
               to={{
                 pathname: `${url}/cast`,
                 state: {
-                  from:
-                    location && location.state && location.state.from
-                      ? location.state.from
-                      : "/",
+                  from: location?.state?.from ?? "/",
                 },
               }}
             >
@@ -100,10 +97,7 @@ export default function MovieDetailsPage() {
               to={{
                 pathname: `${url}/reviews`,
                 state: {
-                  from:
-                    location && location.state && location.state.from
-                      ? location.state.from
-                      : "/",
+                  from: location?.state?.from ?? "/",
                 },
               }}
             >

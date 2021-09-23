@@ -17,6 +17,13 @@ export default function HomeView() {
   useEffect(() => {
     if (perPage !== page) {
       setPage(perPage);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [perPage]);
+
+  useEffect(() => {
+    if (perPage !== page) {
+      setPage(perPage);
     } else {
       trendingFims(page);
     }
@@ -47,11 +54,27 @@ export default function HomeView() {
     setTrendFilms([]);
     let selected = event.selected + 1;
     setPage(selected);
-    history.push({ ...location, search: `page=${selected}` });
+    history.push({
+      ...location,
+      state: {
+        from: location,
+      },
+      search: `page=${selected}`,
+    });
+  };
+
+  const goBack = () => {
+    setTrendFilms([]);
+    history.push(location?.state?.from ?? "/movies");
   };
 
   return (
     <div>
+      {page !== 1 && (
+        <button type="button" onClick={goBack}>
+          Back
+        </button>
+      )}
       <FilmsList>
         {trendFilms.map((film) => {
           return (

@@ -25,13 +25,17 @@ function MoviesView() {
     if (page !== 1) {
       setPage(perPage);
     }
-  }, []);
-
-  useEffect(() => {
-    if (input !== "" || page !== perPage) {
-      setInput(searchQuery);
+    if (searchQuery !== "") {
       formSubmit(searchQuery, perPage);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [perPage, searchQuery]);
+
+  useEffect(() => {
+    if (page !== perPage) {
+      setInput(searchQuery);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const handleChange = (e) => {
@@ -48,7 +52,7 @@ function MoviesView() {
     setFilms([]);
     history.push({ ...location, search: `query=${input}` });
 
-    formSubmit(input);
+    // formSubmit(input);
   };
 
   function formSubmit(searchInput, page) {
@@ -86,7 +90,18 @@ function MoviesView() {
     setFilms([]);
     let selected = event.selected + 1;
     setPage(selected);
-    history.push({ ...location, search: `query=${input}&page=${selected}` });
+    history.push({
+      ...location,
+      state: {
+        from: location,
+      },
+      search: `query=${searchQuery}&page=${selected}`,
+    });
+  };
+
+  const goBack = () => {
+    setFilms([]);
+    history.push(location?.state?.from ?? "/movies");
   };
 
   return (
@@ -109,6 +124,11 @@ function MoviesView() {
         </form>
         <ToastContainer />
       </div>
+      {page !== 1 && (
+        <button type="button" onClick={goBack}>
+          Back
+        </button>
+      )}
       <FilmsList>
         {films.map((film) => {
           return (
